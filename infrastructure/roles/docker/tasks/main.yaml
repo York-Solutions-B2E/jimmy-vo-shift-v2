@@ -1,0 +1,51 @@
+- name: Install Docker dependencies
+  block:
+    - name: Add Docker GPG apt key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      ansible.builtin.apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
+        state: present
+        filename: docker
+
+    - name: Install Docker SDK for Python
+      ansible.builtin.pip:
+        name:
+          - "docker==6.1.3"
+          - "docker-compose"
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+
+    - name: Install Docker packages
+      ansible.builtin.apt:
+        name:
+          - docker-ce=5:24.0.7-1~ubuntu.22.04~jammy
+          - docker-ce-cli=5:24.0.7-1~ubuntu.22.04~jammy
+          - containerd.io
+        state: present
+  become: yes
+
+- name: Set up Docker user
+  block:
+    - name: Create Docker user (if needed)
+      ansible.builtin.user:
+        name: ubuntu
+        state: present
+
+    - name: Add user to Docker group
+      ansible.builtin.user:
+        name: ubuntu
+        groups: docker
+        append: yes
+  become: yes
+
+- name: Restart Docker
+  ansible.builtin.service:
+    name: docker
+    state: restarted
+    enabled: true

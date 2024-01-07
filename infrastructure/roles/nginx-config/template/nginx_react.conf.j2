@@ -1,0 +1,26 @@
+server {
+    listen 443; #
+    server_name {{ server_public_ip }}; #gathered by ansible and set as variable
+
+    root ~/build;  # GHA transfer react build /home/ubuntu
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /api/ {  # Or any other appropriate path prefix
+            proxy_pass http://localhost:8080;  # Forward to Spring Boot backend
+
+    proxy_http_version
+
+    1.1;
+            proxy_set_header
+
+    Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+}
+

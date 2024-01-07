@@ -1,0 +1,73 @@
+name: build and redeploy
+
+on:
+  pull_request:
+    types: [merged]
+    branches: [main]
+
+jobs:
+  build_react:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.19.0
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+  build_springboot:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: java environment
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+
+      - name: gradle action
+        uses: gradle/gradle-build-action@v3
+
+      - name: build .jar with gradle
+        run: ./gradlew build
+
+  run_ansible-playbook:
+    defaults:
+      run:
+        working-directory: infrastructure
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.6.6
+
+      - name: Create scheduler.pem file
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 --decode > scheduler.pem
+          chmod 400 scheduler.pem
+
+      - name: Gather public_ip and redeploy with ansible
+        run: |
+          terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          ansible-playbook  -i $(terraform output public_ip), --private-key scheduler.pem redeploy.yaml

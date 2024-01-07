@@ -1,0 +1,20 @@
+---
+- name: Install dependency
+  hosts: all
+  remote_user: ubuntu
+  become: true
+
+- name: Transfer React build
+  copy:
+    src: /frontend/build/
+    dest: /home/ubuntu
+    remote_src: yes
+
+- name: Transfer React build
+  copy:
+    src: .jar
+    dest: /home/ubuntu
+    remote_src: yes
+
+- roles:
+    -nginx-config

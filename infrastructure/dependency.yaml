@@ -1,0 +1,15 @@
+---
+- name: Install dependency
+  hosts: all
+  vars_files:
+    - vault.yml
+  remote_user: ubuntu
+  become: true
+
+  roles:
+    - config
+    - docker
+    - nginx
+    - java
+    - postgres
+#    - nginx-config #make sure .jar and /build are in /home/ubuntu

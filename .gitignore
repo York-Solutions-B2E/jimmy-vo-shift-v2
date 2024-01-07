@@ -31,3 +31,22 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Terraform
+infrastructure/*.tfstate
+infrastructure/*.tfstate.backup
+infrastructure/.terraform/*
+infrastructure/*.tfplan
+infrastructure/*.tfvars
+infrastructure/.terraform.lock.hcl
+
+infrastructure/.vault_pass.txt
+infrastructure/.env
+infrastructure/credentials.tfvars
+infrastructure/credentials.sh
+infrastructure/docker-compose.yaml
+
+#key files
+*.pem
+*.pub
+/infrastructure/scheduler.pem

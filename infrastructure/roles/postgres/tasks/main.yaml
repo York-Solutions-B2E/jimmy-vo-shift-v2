@@ -1,0 +1,13 @@
+---
+- name: Generate docker-compose.yaml.j2
+  template:
+    src: docker-compose.yaml.j2
+    dest: /home/ubuntu/docker-compose.yaml
+
+
+- name: Run "docker compose up" V2
+  docker_compose:
+    project_src: /home/ubuntu #server path
+    state: present
+    restarted: yes
+

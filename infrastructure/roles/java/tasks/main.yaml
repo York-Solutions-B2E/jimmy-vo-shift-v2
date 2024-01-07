@@ -1,0 +1,9 @@
+---
+
+- name: Install OpenJDK 17
+  apt:
+    name: openjdk-17-jdk
+    state: latest
+
+
+
