@@ -77,4 +77,4 @@ jobs:
 
       - name: redeploy with ansible
         run: |
-          ansible-playbook  -i ${{ env.OUTPUT_IP }}, --private-key scheduler.pem redeploy.yaml
+          ansible-playbook  -i 100.25.36.90, --private-key scheduler.pem redeploy.yaml
