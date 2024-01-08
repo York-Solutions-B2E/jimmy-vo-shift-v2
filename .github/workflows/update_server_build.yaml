@@ -51,7 +51,7 @@ jobs:
       - name: Build
         run: |
           npm run build
-          cp /build/ infrastructure
+          cp /build/ ../infrastructure
 
   run_ansible-playbook:
     needs:
