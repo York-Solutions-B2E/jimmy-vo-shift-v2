@@ -3,13 +3,13 @@
   block:
     - name: Transfer React build
       copy:
-        src: { { react_build_path } }
+        src: "{{ react_build_path }}"
         dest: /home/ubuntu
         remote_src: yes
 
     - name: Transfer JAR file
       copy:
-        src: {{ spring_boot_jar_path }}
+        src: "{{ spring_boot_jar_path }}"
         dest: /home/ubuntu
         remote_src: yes
 
