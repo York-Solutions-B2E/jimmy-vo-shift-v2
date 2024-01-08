@@ -22,4 +22,5 @@ resource "aws_instance" "ubuntu" {
   provisioner "local-exec" {
     command = "ansible-playbook  -i ${aws_instance.ubuntu.public_ip}, --private-key ${var.private_key_path} dependency.yaml --vault-password-file=.vault_pass.txt"
   }
+
 }

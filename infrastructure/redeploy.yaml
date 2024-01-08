@@ -1,20 +1,7 @@
----
-- name: Install dependency
+- name: transfer builds
   hosts: all
   remote_user: ubuntu
   become: true
 
-- name: Transfer React build
-  copy:
-    src: /frontend/build
-    dest: /home/ubuntu
-    remote_src: yes
-
-- name: Transfer React build
-  copy:
-    src: /target/shifts-0.0.1-SNAPSHOT.jar
-    dest: /home/ubuntu
-    remote_src: yes
-
-- roles:
-    -nginx-config
+  roles:
+    - nginx-config

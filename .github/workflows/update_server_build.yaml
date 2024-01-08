@@ -18,6 +18,8 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
+          java-package: jdk
+          distribution: 'adopt'
 
       - name: build .jar with maven
         run: mvn install
