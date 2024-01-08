@@ -25,15 +25,18 @@ jobs:
 #        run: mvn install
 
       - name: print working directory
-        run: ls -aR
+        run: pwd
 
-#  build_react:
-#    runs-on: ubuntu-latest
-#    defaults:
-#      run:
-#        working-directory: frontend
-#
-#    steps:
+  build_react:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+
+      - name: print working directory
+        run: pwd
 #      - name: Checkout repository
 #        uses: actions/checkout@v3
 #
@@ -48,19 +51,19 @@ jobs:
 #      - name: Build
 #        run: npm run build
 #
-#  run_ansible-playbook:
-#    needs:
-#      - build_springboot
-#      - build_react
-#
-#    runs-on: ubuntu-latest
-#    defaults:
-#      run:
-#        working-directory: infrastructure
-#
-#    steps:
-#      - name: print working directory
-#        run: pwd
+  run_ansible-playbook:
+    needs:
+      - build_springboot
+      - build_react
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infrastructure
+
+    steps:
+      - name: print working directory
+        run: pwd
 #
 #      - name: Checkout repository
 #        uses: actions/checkout@v3
