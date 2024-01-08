@@ -13,21 +13,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-#
-#      - name: java environment
-#        uses: actions/setup-java@v3
-#        with:
-#          java-version: 17
-#          java-package: jdk
-#          distribution: 'adopt'
-#
-#      - name: build .jar with maven
-#        run: mvn install
+
+      - name: java environment
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          java-package: jdk
+          distribution: 'adopt'
+
+      - name: build .jar with maven
+        run: mvn install
 
       - name: print working directory
         run: |
           pwd
-          ls -aR
 
   build_react:
     runs-on: ubuntu-latest
@@ -39,22 +38,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: print working directory
-        run: pwd
-#      - name: Checkout repository
-#        uses: actions/checkout@v3
-#
-#      - name: node environment
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: 18.19.0
-#
-#      - name: Install dependencies
-#        run: npm install
-#
-#      - name: Build
-#        run: npm run build
-#
+      - name: node environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.19.0
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
   run_ansible-playbook:
     needs:
       - build_springboot
@@ -69,27 +63,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: print working directory
-        run: pwd
-#
-#      - name: Checkout repository
-#        uses: actions/checkout@v3
-#
-#      - name: Set up Terraform
-#        uses: hashicorp/setup-terraform@v1
-#        with:
-#          terraform_version: 1.6.6
-#
-#      - name: Create scheduler.pem file
-#        run: |
-#          echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 --decode > scheduler.pem
-#          chmod 400 scheduler.pem
-#
-#      - name: Gather public_ip through terraform init
-#        run: |
-#          terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-#          echo OUTPUT_IP=$(terraform output public_ip) >> $GITHUB_ENV
-#
-#      - name: redeploy with ansible
-#        run: |
-#          ansible-playbook  -i 100.25.36.90, --private-key scheduler.pem redeploy.yaml
+      - name: copy over jar and build
+        run: |
+          cp ../target/*.jar
+          cp ../frontend/build/
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.6.6
+
+      - name: Create scheduler.pem file
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 --decode > scheduler.pem
+          chmod 400 scheduler.pem
+
+      - name: Gather public_ip through terraform init
+        run: |
+          terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          echo OUTPUT_IP=$(terraform output public_ip) >> $GITHUB_ENV
+
+      - name: redeploy with ansible
+        run: |
+          ansible-playbook  -i 100.25.36.90, --private-key scheduler.pem redeploy.yaml
