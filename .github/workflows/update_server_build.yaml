@@ -69,4 +69,4 @@ jobs:
       - name: Gather public_ip and redeploy with ansible
         run: |
           terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          ansible-playbook  -i $(terraform output public_ip), --private-key scheduler.pem redeploy.yaml
+          ansible-playbook  -i $(terraform output public_ip), redeploy.yaml --private-key scheduler.pem
