@@ -33,7 +33,6 @@ jobs:
 
   build_react:
     runs-on: ubuntu-latest
-    defaults:
 
     steps:
       - name: Checkout repository
