@@ -65,8 +65,8 @@ jobs:
 
       - name: copy over jar and build
         run: |
-          cp ../target/*.jar
-          cp ../frontend/build/
+          cp ../target/*.jar .
+          cp ../frontend/build/ .
 
       - name: Checkout repository
         uses: actions/checkout@v3
