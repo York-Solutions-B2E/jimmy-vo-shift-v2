@@ -86,4 +86,4 @@ jobs:
 
       - name: redeploy with ansible
         run: |
-          ansible-playbook -i "${{ env.OUTPUT_IP }}," --private-key scheduler.pem redeploy.yaml -e "react_build_path=build-artifacts/frontend/build" -e "spring_boot_jar_path=spring-boot-artifact/*.jar"
+          ansible-playbook -i ${{ env.OUTPUT_IP }}, --private-key scheduler.pem redeploy.yaml -e "react_build_path=build-artifacts/frontend/build" -e "spring_boot_jar_path=spring-boot-artifact/*.jar"
