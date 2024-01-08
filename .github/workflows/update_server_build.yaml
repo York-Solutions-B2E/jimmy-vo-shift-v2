@@ -25,7 +25,9 @@ jobs:
 #        run: mvn install
 
       - name: print working directory
-        run: pwd
+        run: |
+          pwd
+          ls -a
 
   build_react:
     runs-on: ubuntu-latest
