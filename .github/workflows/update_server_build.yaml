@@ -23,7 +23,6 @@ jobs:
 
       - name: build .jar with maven
         run: mvn install
-        working-directory: .
 
       - name: Upload Spring Boot artifact
         uses: actions/upload-artifact@v3
@@ -43,12 +42,11 @@ jobs:
         with:
           node-version: 18.19.0
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
-        working-directory: frontend
+      - name: Install dependencies and build
+        run: |
+          cd frontend
+          npm install
+          npm run build
 
       - name: Upload React build artifact
         uses: actions/upload-artifact@v3
@@ -71,9 +69,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: print directory content
-        run: ls -a
-
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
@@ -91,4 +86,6 @@ jobs:
 
       - name: redeploy with ansible
         run: |
-          ansible-playbook -i "${{ env.OUTPUT_IP }}," --private-key scheduler.pem redeploy.yaml -e "react_build_path=build-artifacts/frontend/build" -e "spring_boot_jar_path=spring-boot-artifact/*.jar"
+          ansible-playbook -i "${{ env.OUTPUT_IP }}," --private-key scheduler.pem redeploy.yaml |
+          -e "react_build_path=build-artifacts/frontend/build" |
+          -e "spring_boot_jar_path=spring-boot-artifact/*.jar"
