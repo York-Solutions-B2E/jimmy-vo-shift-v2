@@ -52,4 +52,4 @@ jobs:
       - name: redeploy with ansible
         run: |
           cd infrastructure
-          ansible-playbook -i novolty.com, --private-key scheduler.pem redeploy.yaml -e "react_build_path=build-artifacts/frontend/build" -e "spring_boot_jar_path=spring-boot-artifact/*.jar"
+          ansible-playbook -i novolty.com, --private-key scheduler.pem redeploy.yaml
