@@ -6,6 +6,21 @@ on:
     branches: [main]
 
 jobs:
+  build_springboot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: java environment
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+
+      - name: build .jar with maven
+        run: mvn install
+
   build_react:
     runs-on: ubuntu-latest
     defaults:
@@ -27,26 +42,6 @@ jobs:
       - name: Build
         run: npm run build
 
-  build_springboot:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: java environment
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
-
-      - name: gradle action
-        uses: gradle/gradle-build-action@v3
-
-      - name: build .jar with gradle
-        run: ./gradlew build
 
   run_ansible-playbook:
     defaults:

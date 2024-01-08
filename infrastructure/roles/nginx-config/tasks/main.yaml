@@ -1,6 +1,9 @@
 ---
 - name: Configure Nginx for React app
   tasks:
+    - name: Start JAR file
+      command: java -jar /ubuntu/home/shifts-0.0.1-SNAPSHOT.jar
+
     - name: Install Nginx
       apt:
         name: nginx
@@ -16,7 +19,7 @@
 
     - name: Create Nginx configuration file
       template:
-        src: nginx_react.conf.j2  # template listens to 8080 port
+        src: nginx_react.conf.j2  # template listens to 443 port
         dest: /etc/nginx/sites-enabled/nginx_react.conf #default config path
         vars:
           server_name: "{{ server_public_ip }}"
