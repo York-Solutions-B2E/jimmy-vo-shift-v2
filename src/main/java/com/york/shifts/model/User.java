@@ -1,5 +1,4 @@
 package com.york.shifts.model;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
