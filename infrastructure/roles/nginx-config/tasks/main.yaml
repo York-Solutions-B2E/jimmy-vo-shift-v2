@@ -3,13 +3,13 @@
   block:
     - name: Transfer React build
       copy:
-        src: /frontend/build
+        src: ../frontend/build
         dest: /home/ubuntu
         remote_src: yes
 
     - name: Transfer JAR file
       copy:
-        src: /target/shifts-0.0.1-SNAPSHOT.jar
+        src: ../target/shifts-0.0.1-SNAPSHOT.jar
         dest: /home/ubuntu
         remote_src: yes
 
