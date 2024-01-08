@@ -52,7 +52,7 @@ jobs:
         run: |
           npm run build
           ls
-          cp build ../infrastructure
+          cp -r build ../infrastructure
 
   run_ansible-playbook:
     needs:
