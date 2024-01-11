@@ -24,14 +24,15 @@ jobs:
         with:
           node-version: 18.19.0
 
-      - name: add application.properties to
+      - name: Add application.properties to
         uses: cuchi/jinja2-action@v1.2.2
         with:
           template: src/main/resources/application.properties.j2
-          output: src/main/resources/application.properties
+          output_file: src/main/resources/application.properties
           strict: true
-          variables: |
+          variables: |  
             PSQL_PW=${{ secrets.PSQL_PW }}
+
 
       - name: build with psql credentials
         run: |
