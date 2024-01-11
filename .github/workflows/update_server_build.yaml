@@ -61,9 +61,9 @@ jobs:
           chmod 600 hosts
           echo "[webservers]" >> hosts
           echo "$OUTPUT_IP" >> hosts
-
-      - name: redeploy with ansible
-        run: |
-          cd infrastructure
           cat host
           ansible-playbook -i hosts --private-key scheduler.pem redeploy.yaml
+
+#      - name: redeploy with ansible
+#        run: |
+#          cd infrastructure
