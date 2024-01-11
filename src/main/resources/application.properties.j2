@@ -1,0 +1,13 @@
+spring.datasource.url=jdbc:postgresql://localhost:5432/shift_DB
+spring.datasource.username=admin
+spring.datasource.password={{ PSQL_PW }}
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+# hibernate build schema from entity
+spring.jpa.hibernate.ddl-auto=update
+#show sql log
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+#let hibernate build tables before seeding
+spring.jpa.defer-datasource-initialization=true
+spring.sql.init.mode=always

@@ -9,6 +9,15 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
+    location /static/ {
+            # Path to your static files
+            alias /home/ubuntu/build/static/;
+        }
+    location /media/ {
+        # Path to your media files (if applicable)
+        alias /home/ubuntu/build/static/media/;
+    }
+
     location /api/ {  # Or any other appropriate path prefix
             proxy_pass http://localhost:8080;  # Forward to Spring Boot backend
 

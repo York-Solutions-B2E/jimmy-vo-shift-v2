@@ -1,0 +1,15 @@
+---
+- name: Transfer React build
+  copy:
+    src: ../frontend/build/ # trailing dash to include content
+    dest: /var/www/novolty.com/html # include build even if it doesnt exist
+#    dest: /home/ubuntu/build # include build even if it doesnt exist
+#        remote_src: yes
+
+#- name: Grant read permissions to /home/ubuntu/build
+#  file:
+#    path: /var/www/your_domain/html
+#    state: directory
+#    mode: u=rwX,g=rX,o=rX
+#    owner: ubuntu
+#    group: ubuntu

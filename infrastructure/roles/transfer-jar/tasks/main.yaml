@@ -1,0 +1,8 @@
+---
+
+- name: Transfer JAR file
+  copy:
+    src: ../target/shifts-0.0.1-SNAPSHOT.jar
+    dest: /home/ubuntu
+#        remote_src: yes
+

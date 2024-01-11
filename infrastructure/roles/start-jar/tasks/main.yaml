@@ -1,0 +1,5 @@
+---
+# TODO create script to find PID of LISTEN on 8080 & sudo kill PID
+- name: Start JAR file in background
+  shell: |
+    java -jar shifts-0.0.1-SNAPSHOT.jar &
