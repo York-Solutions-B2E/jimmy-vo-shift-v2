@@ -90,7 +90,8 @@ jobs:
           touch hosts
           chmod 600 hosts
           echo "[all]" >> hosts
-          echo "terraform output public_ip | tr -d '"'" >> hosts
+          echo "$(terraform output public_ip | tr -d '"')" >> hosts
+          cat hosts
 
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
