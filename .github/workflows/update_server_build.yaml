@@ -57,7 +57,7 @@ jobs:
         run: |
           cd infrastructure
           terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          GATHERED_IP=$(terraform output public_ip | tr -d '"'| tr -d "'")
+          GATHERED_IP=$(terraform output public_ip)
           echo "PUBLIC_IP=$GATHERED_IP" >> "$GITHUB_ENV"
 
       - name: run ansible playbook with output variable
