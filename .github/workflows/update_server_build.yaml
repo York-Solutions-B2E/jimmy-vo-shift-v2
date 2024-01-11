@@ -100,7 +100,7 @@ jobs:
           options: |
             --verbose
             --ssh-extra-args "-o StrictHostKeyChecking=no"
-            --inventory infrastructure/hosts
+            --inventory infrastructure/hosts --graph
 #          inventory: |
 #            [all]
 #            ${{ terraform output public_ip | tr -d '"'}}
