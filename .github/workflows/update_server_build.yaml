@@ -51,6 +51,7 @@ jobs:
           cd infrastructure
           echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 --decode > scheduler.pem
           chmod 400 scheduler.pem
+
       - name: Gather_public_ip
         id: get_public_ip
         run: |
