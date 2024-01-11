@@ -87,19 +87,20 @@ jobs:
         run: |
           cd infrastructure
           terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          ansible-playbook -i $(terraform output public_ip | tr -d '"'), --private-key scheduler.pem redeploy.yaml
+          touch hosts
+          chmod 600 hosts
+          echo "[all]" >> hosts
+          echo "terraform output public_ip | tr -d '"'" >> hosts
 
-
-
-#      - name: create output.env with variable
-#        run: |
-#          cd infrastructure
-#          touch output.env
-#          chmod 600 output.env
-#          cat << EOF > output.env
-#          OUTPUT_IP=$(terraform output public_ip | tr -d '"')
-#          EOF
-
-
-
-
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: redeploy.yaml
+          directory: ./infrastructure
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          vault_password: ${{secrets.ANSIBLE_VAULT_PW}}
+          options: |
+            --inventory .hosts
+            --verbose
+#            --limit group1
+#            --extra-vars hello=there
