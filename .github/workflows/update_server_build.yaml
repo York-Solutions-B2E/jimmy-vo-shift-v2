@@ -60,6 +60,6 @@ jobs:
 
       - name: run ansible playbook
         run:
-          ansible-playbook -i "${{ OUTPUT_IP }}," --private-key scheduler.pem redeploy.yaml
+          ansible-playbook -i "$OUTPUT_IP," --private-key scheduler.pem redeploy.yaml
 
 
