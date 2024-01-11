@@ -54,16 +54,10 @@ jobs:
 
       - name: Gather public_ip through terraform init
         run: |
+          env
           cd infrastructure
           terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          OUTPUT_IP=$(terraform output public_ip | tr -d '"')
-          touch hosts
-          chmod 600 hosts
-          echo "[webservers]" >> hosts
-          echo "$OUTPUT_IP" >> hosts
-          cat hosts
-          ansible-playbook -i hosts --private-key scheduler.pem redeploy.yaml
-
-#      - name: redeploy with ansible
-#        run: |
-#          cd infrastructure
+          ansible-playbook -i $OUTPUT_IP, --private-key scheduler.pem redeploy.yaml
+        env:
+          OUTPUT_IP:
+            run: terraform output public_ip | tr -d '"'
