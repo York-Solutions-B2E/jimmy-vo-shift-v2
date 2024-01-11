@@ -58,15 +58,15 @@ jobs:
           cd infrastructure
           terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
           GATHER_IP=$(terraform output public_ip | tr -d '"')
-          echo "PUBLIC_IP=$GATHER_IP" >> outputs.env
+          echo "PUBLIC_IP=$GATHER_IP" >> GITHUB_ENV
+          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml -VVVV
 
 #          echo "OUTPUT_IP=$(terraform output public_ip | tr -d '"')" >> outputs.env
 
-      - name: run ansible playbook
-        run: |
-          cd infrastructure
-          source outputs.env
-          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml -VVVV
+#      - name: run ansible playbook
+#        run: |
+#          cd infrastructure
+#          source outputs.env
 #          ansible-playbook -i $( terraform output public_ip | tr -d '"'), --private-key scheduler.pem redeploy.yaml -VVVV
 
 
