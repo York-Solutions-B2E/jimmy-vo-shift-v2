@@ -94,13 +94,13 @@ jobs:
           playbook: ./infrastructure/redeploy.yaml
           directory: ./infrastructure
           key: ${{secrets.SSH_PRIVATE_KEY}}
-          inventory: |
-            [all]
-            ${{ terraform output public_ip | tr -d '"'}}
           vault_password: ${{secrets.ANSIBLE_VAULT_PW}}
           options: |
             --verbose
             --ssh-extra-args "-o StrictHostKeyChecking=no"
-#            --inventory
-#            --limit group1
+            --inventory ${{ terraform output public_ip | tr -d '"'}},
+#          inventory: |
+#            [all]
+#            ${{ terraform output public_ip | tr -d '"'}}
+
 #            --extra-vars hello=there
