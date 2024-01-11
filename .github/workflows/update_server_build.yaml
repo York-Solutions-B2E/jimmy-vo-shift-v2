@@ -61,4 +61,5 @@ jobs:
       - name: redeploy with ansible
         run: |
           cd infrastructure
-          ansible-playbook -i $OUTPUT_IP, --private-key scheduler.pem redeploy.yaml
+          echo $env:GITHUB_ENV
+          ansible-playbook -i ${OUTPUT_IP}, --private-key scheduler.pem redeploy.yaml
