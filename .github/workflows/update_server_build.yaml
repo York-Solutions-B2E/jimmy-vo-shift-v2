@@ -1,5 +1,4 @@
-name: build and redeploy
-
+name: build react/jar and redeploy
 on:
   workflow_dispatch:
   pull_request:
