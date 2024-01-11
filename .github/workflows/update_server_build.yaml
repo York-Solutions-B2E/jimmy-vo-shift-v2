@@ -56,10 +56,14 @@ jobs:
         run: |
           cd infrastructure
           terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          echo OUTPUT_IP=$(terraform output public_ip | tr -d '"') >> $GITHUB_ENV
+          OUTPUT_IP=$(terraform output public_ip | tr -d '"')
+          touch hosts
+          chmod 600 hosts
+          echo "[webservers]" >> hosts
+          echo "$OUTPUT_IP" >> hosts
 
       - name: redeploy with ansible
         run: |
           cd infrastructure
-          echo $env:GITHUB_ENV
-          ansible-playbook -i ${OUTPUT_IP}, --private-key scheduler.pem redeploy.yaml
+          cat host
+          ansible-playbook -i hosts --private-key scheduler.pem redeploy.yaml
