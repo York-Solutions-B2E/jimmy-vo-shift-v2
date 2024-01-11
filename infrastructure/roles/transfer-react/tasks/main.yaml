@@ -1,0 +1,5 @@
+---
+- name: Transfer React build
+  copy:
+    src: ../frontend/build/ # trailing dash to include content
+    dest: /var/www/novolty.com/html

@@ -1,0 +1,11 @@
+---
+- name: send script to end existing 8080 port
+  copy:
+    src: check_and_kill_8080.sh
+    dest: /home/ubuntu
+    mode: 0755
+
+- name: Start JAR file in background
+  shell: |
+    ./check_and_kill_8080.sh
+    java -jar shifts-0.0.1-SNAPSHOT.jar &

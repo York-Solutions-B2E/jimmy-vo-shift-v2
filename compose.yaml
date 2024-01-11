@@ -1,9 +1,0 @@
-services:
-  postgres:
-    image: 'postgres:14.10'
-    environment:
-      - 'POSTGRES_DB=shift_DB'
-      - 'POSTGRES_PASSWORD=b2e059'
-      - 'POSTGRES_USER=admin'
-    ports:
-      - '5432'

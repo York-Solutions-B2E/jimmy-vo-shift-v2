@@ -25,9 +25,18 @@ jobs:
         with:
           node-version: 18.19.0
 
-      - name: build
+      - name: add application.properties to
+        uses: cuchi/jinja2-action@v1.2.2
+        with:
+          template: src/main/resources/application.properties.j2
+          output: src/main/resources/application.properties
+          strict: true
+          variables: |
+            PSQL_PW=${{ secrets.PSQL_PW }}
+
+      - name: build with psql credentials
         run: |
-          mvn install
+          mvn install 
           cd frontend
           npm install
           npm run build
@@ -52,4 +61,4 @@ jobs:
       - name: redeploy with ansible
         run: |
           cd infrastructure
-          ansible-playbook -i novolty.com, --private-key scheduler.pem redeploy.yaml
+          ansible-playbook -i $(OUTPUT_IP), --private-key scheduler.pem redeploy.yaml

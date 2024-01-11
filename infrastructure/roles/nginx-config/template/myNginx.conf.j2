@@ -1,0 +1,35 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ server_public_ip }} novolty.com;
+
+    root /var/www/novolty.com/html;  # GHA transfer react build /home/ubuntu
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+            try_files $uri $uri/ =404;
+    }
+
+    location /static/ {
+        # Path to your static files
+        alias /var/www/novolty.com/html/static/;
+    }
+    location /media/ {
+        # Path to your media files (if applicable)
+        alias /var/www/novolty.com/html/static/media/;
+    }
+
+    location /api/ {  # Or any other appropriate path prefix
+            proxy_pass http://localhost:8080;  # Forward to Spring Boot backend
+
+    proxy_http_version
+
+    1.1;
+            proxy_set_header
+
+    Upgrade $http_upgrade;
+            proxy_set_header Connection 'upgrade';
+            proxy_set_header Host $host;
+            proxy_cache_bypass $http_upgrade;
+        }
+}
