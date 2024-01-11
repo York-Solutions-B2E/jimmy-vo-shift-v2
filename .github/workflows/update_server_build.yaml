@@ -52,14 +52,22 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 --decode > scheduler.pem
           chmod 400 scheduler.pem
 
-      - name: Gather public_ip through terraform init
+      - name: Gather_public_ip
+        id: public_ip
         run: |
           cd infrastructure
           terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-#          echo "OUTPUT_IP=$(terraform output public_ip | tr -d '"')" >> "$GITHUB_ENV"
+          GATHER_IP=$(terraform output public_ip | tr -d '"')
+          echo "PUBLIC_IP=$GATHER_IP" >> outputs.env
+
+#          echo "OUTPUT_IP=$(terraform output public_ip | tr -d '"')" >> outputs.env
 
       - name: run ansible playbook
-        run:
-          ansible-playbook -i $( terraform output public_ip | tr -d '"'), --private-key scheduler.pem redeploy.yaml -VVVV
+        run: |
+          cd infrastructure
+          source outputs.env
+          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml -VVVV
+#          ansible-playbook -i $( terraform output public_ip | tr -d '"'), --private-key scheduler.pem redeploy.yaml -VVVV
+
 
 
