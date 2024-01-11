@@ -87,7 +87,7 @@ jobs:
         run: |
           cd infrastructure
           terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          echo "[all]" > hosts
+          echo "[webservers]" > hosts
           echo "$(terraform output public_ip | tr -d '"')" >> hosts
           chmod 600 hosts
 
