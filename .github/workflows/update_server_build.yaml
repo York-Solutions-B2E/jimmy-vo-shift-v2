@@ -87,6 +87,9 @@ jobs:
         run: |
           cd infrastructure
           terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          echo "[all]" > hosts
+          echo "$(terraform output public_ip | tr -d '"')" >> hosts
+          chmod 600 hosts
 
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
@@ -98,7 +101,7 @@ jobs:
           options: |
             --verbose
             --ssh-extra-args "-o StrictHostKeyChecking=no"
-            --inventory ${{ terraform output public_ip | tr -d '"'}},
+            --inventory .hosts
 #          inventory: |
 #            [all]
 #            ${{ terraform output public_ip | tr -d '"'}}
