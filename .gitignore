@@ -50,5 +50,4 @@ infrastructure/docker-compose.yaml
 *.pem
 *.pub
 /infrastructure/scheduler.pem
-
 src/main/resources/application.properties
