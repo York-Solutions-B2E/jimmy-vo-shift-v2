@@ -1,9 +1,9 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name {{ server_public_ip }} novolty.com;
+    server_name {{ INSTANCE_IP }} novolty.com;
 
-    root /var/www/novolty.com/html;  # GHA transfer react build /home/ubuntu
+    root /var/www/novolty.com/html;
     index index.html index.htm index.nginx-debian.html;
 
     location / {

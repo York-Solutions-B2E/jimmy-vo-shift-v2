@@ -1,8 +1,14 @@
 ---
 - name: transfer builds
   hosts: all
-  remote_user: ubuntu
   become: true
+  remote_user: ubuntu
+  vars:
+    INSTANCE_IP: "novolty.com"
+
+  tasks:
+    - debug:
+        var=INSTANCE_IP
 
   roles:
     - transfer-react
