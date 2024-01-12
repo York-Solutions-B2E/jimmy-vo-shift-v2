@@ -72,14 +72,14 @@ jobs:
           terraform output -raw public_ip > public_ip.txt
           cat public_ip.txt
           export PUBLIC_IP=$(cat public_ip.txt)
-#          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml
+          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml
 
-      - name: run ansible playbook with output variable
-        run: |
-          set -x
-          cd infrastructure
-          cat $PUBLIC_IP
-          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml 
+#      - name: run ansible playbook with output variable
+#        run: |
+#          set -x
+#          cd infrastructure
+#          cat $PUBLIC_IP
+#          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml
 
 #      - name: Run playbook
 #        working-directory: infrastructure
