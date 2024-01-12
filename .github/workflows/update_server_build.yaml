@@ -24,10 +24,10 @@ jobs:
         with:
           node-version: 18.19.0
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.6.6
+#      - name: Set up Terraform
+#        uses: hashicorp/setup-terraform@v1
+#        with:
+#          terraform_version: 1.6.6
 
       - name: Add application.properties to springboot
         uses: cuchi/jinja2-action@v1.2.2
