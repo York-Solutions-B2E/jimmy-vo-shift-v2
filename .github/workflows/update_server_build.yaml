@@ -69,7 +69,7 @@ jobs:
         run: |
           set -x
           cd infrastructure
-          $(terraform output -raw public_ip) > public_ip.txt
+          terraform output -raw public_ip > public_ip.txt
           cat public_ip.txt
           export PUBLIC_IP=$(cat public_ip.txt)
 
