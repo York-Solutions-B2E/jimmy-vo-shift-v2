@@ -67,7 +67,9 @@ jobs:
       - name: Capture Terraform Output
         run: |
           set -x
-          terraform output -raw public_ip > public_ip.txt
+          cd infrastructure
+          $terraform output -raw public_ip$ > public_ip.txt
+          cat public_ip.txt
           export PUBLIC_IP=$(cat public_ip.txt)
 
       - name: run ansible playbook with output variable
