@@ -6,14 +6,14 @@
 
     - name: Store the public IP of the first host
       set_fact:
-        server_public_ip: "{{ ansible_facts.ansible_host }}"
+        server_public_ip: ansible_default_ipv4.address
 
     - name: Create Nginx configuration file
+      vars:
+        server_name: "{{ server_public_ip }}"
       template:
-        src: myNginx.conf.j2  # template listens to
+        src: myNginx.conf.j2
         dest: /etc/nginx/sites-available/myNginx.conf
-        vars:
-          server_name: "{{ server_public_ip }}"
 
     - name: Add user to group root
       user:
