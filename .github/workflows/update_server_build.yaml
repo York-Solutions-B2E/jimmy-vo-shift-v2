@@ -1,4 +1,4 @@
-name: build react/jar and redeploy
+name: Build React/Spring-Boot and Redeploy
 on:
   workflow_dispatch:
   pull_request:
@@ -11,39 +11,37 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-#      GHA runner include the following dependencies
-#      https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
 
-#      - name: java environment
-#        uses: actions/setup-java@v3
-#        with:
-#          java-version: 17
-#          java-package: jdk
-#          distribution: 'adopt'
-#
+      - name: java environment
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          java-package: jdk
+          distribution: 'adopt'
+
       - name: node environment
         uses: actions/setup-node@v3
         with:
           node-version: 18.19.0
 
-#      - name: Set up Terraform
-#        uses: hashicorp/setup-terraform@v1
-#        with:
-#          terraform_version: 1.6.6
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.6.6
 
-#      - name: Add application.properties to springboot
-#        uses: cuchi/jinja2-action@v1.2.2
-#        with:
-#          template: src/main/resources/application.properties.j2
-#          output_file: src/main/resources/application.properties
-#          strict: true
-#          variables: |
-#            PSQL_PW=${{ secrets.PSQL_PW }}
-#
-#      - name: build with psql credentials
-#        run: |
-#          mvn install
-#
+      - name: Add application.properties to springboot
+        uses: cuchi/jinja2-action@v1.2.2
+        with:
+          template: src/main/resources/application.properties.j2
+          output_file: src/main/resources/application.properties
+          strict: true
+          variables: |
+            PSQL_PW=${{ secrets.PSQL_PW }}
+
+      - name: build with psql credentials
+        run: |
+          mvn install
+
       - name: build react
         run: |
           cd frontend
@@ -55,7 +53,6 @@ jobs:
           cd infrastructure
           echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 --decode > scheduler.pem
           chmod 400 scheduler.pem
-
 
       - name: Gather_public_ip
         id: get_public_ip
@@ -73,27 +70,3 @@ jobs:
           cat public_ip.txt
           export PUBLIC_IP=$(cat public_ip.txt)
           ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml
-
-#      - name: run ansible playbook with output variable
-#        run: |
-#          set -x
-#          cd infrastructure
-#          cat $PUBLIC_IP
-#          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml
-
-#      - name: Run playbook
-#        working-directory: infrastructure
-#        uses: dawidd6/action-ansible-playbook@v2
-#        with:
-#          playbook: /infrastructure/redeploy.yaml
-#          key: ${{secrets.SSH_PRIVATE_KEY}}
-#          vault_password: ${{secrets.ANSIBLE_VAULT_PW}}
-#          options: |
-#            --verbose
-#            --ssh-extra-args "-o StrictHostKeyChecking=no"
-#            --inventory infrastructure/hosts
-#          inventory: |
-#            [all]
-#            novolty.com
-
-#            domain connected to public ip via dns
