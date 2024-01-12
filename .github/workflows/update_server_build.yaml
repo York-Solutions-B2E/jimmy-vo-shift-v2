@@ -14,36 +14,36 @@ jobs:
 #      GHA runner include the following dependencies
 #      https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
 
-      - name: java environment
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
-          java-package: jdk
-          distribution: 'adopt'
-
+#      - name: java environment
+#        uses: actions/setup-java@v3
+#        with:
+#          java-version: 17
+#          java-package: jdk
+#          distribution: 'adopt'
+#
       - name: node environment
         uses: actions/setup-node@v3
         with:
           node-version: 18.19.0
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.6.6
+#      - name: Set up Terraform
+#        uses: hashicorp/setup-terraform@v1
+#        with:
+#          terraform_version: 1.6.6
 
-      - name: Add application.properties to springboot
-        uses: cuchi/jinja2-action@v1.2.2
-        with:
-          template: src/main/resources/application.properties.j2
-          output_file: src/main/resources/application.properties
-          strict: true
-          variables: |
-            PSQL_PW=${{ secrets.PSQL_PW }}
-
-      - name: build with psql credentials
-        run: |
-          mvn install
-
+#      - name: Add application.properties to springboot
+#        uses: cuchi/jinja2-action@v1.2.2
+#        with:
+#          template: src/main/resources/application.properties.j2
+#          output_file: src/main/resources/application.properties
+#          strict: true
+#          variables: |
+#            PSQL_PW=${{ secrets.PSQL_PW }}
+#
+#      - name: build with psql credentials
+#        run: |
+#          mvn install
+#
       - name: build react
         run: |
           cd frontend
