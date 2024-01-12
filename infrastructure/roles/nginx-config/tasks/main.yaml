@@ -1,12 +1,6 @@
 ---
 - name: Configure Nginx
   block:
-    - name: latest Nginx
-      apt:
-        name: nginx
-        state: latest
-
-
     - name: Gather facts about target hosts
       setup:
 
