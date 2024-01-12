@@ -78,7 +78,7 @@ jobs:
           set -x
           cat PUBLIC_IP
           cd infrastructure
-          ansible-playbook -i $PUBLIC_IP}, --private-key scheduler.pem redeploy.yaml 
+          ansible-playbook -i ${PUBLIC_IP,} --private-key scheduler.pem redeploy.yaml 
 
 #      - name: Run playbook
 #        working-directory: infrastructure
