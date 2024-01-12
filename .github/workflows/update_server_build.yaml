@@ -41,10 +41,10 @@ jobs:
 #          npm install
 #          npm run build
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.6.6
+#      - name: Set up Terraform
+#        uses: hashicorp/setup-terraform@v1
+#        with:
+#          terraform_version: 1.6.6
 
 #      - name: Create scheduler.pem file
 #        run: |
@@ -82,27 +82,27 @@ jobs:
 #          cd infrastructure
 #          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml -VVVV
 
-      - name: Gather_public_ip
-        id: get_public_ip
-        run: |
-          cd infrastructure
-          terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          echo "{"all":{"hosts":{$(terraform output public_ip):null}}}" > hosts
-          chmod 600 hosts
+#      - name: Gather_public_ip
+#        id: get_public_ip
+#        run: |
+#          cd infrastructure
+#          terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+#          echo "{"all":{"hosts":{$(terraform output public_ip):null}}}" > hosts
+#          chmod 600 hosts
 
       - name: Run playbook
         uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: infrastructure/redeploy.yaml
-#          directory: ./infrastructure
+          directory: ./infrastructure/
           key: ${{secrets.SSH_PRIVATE_KEY}}
           vault_password: ${{secrets.ANSIBLE_VAULT_PW}}
           options: |
             --verbose
             --ssh-extra-args "-o StrictHostKeyChecking=no"
-            --inventory infrastructure/hosts --graph
-#          inventory: |
-#            [all]
-#            ${{ terraform output public_ip | tr -d '"'}}
+            --inventory infrastructure/hosts
+          inventory: |
+            [all]
+            novolty.com
 
-#            --extra-vars hello=there
+#            domain connected to public ip via dns
