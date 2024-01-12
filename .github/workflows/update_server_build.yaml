@@ -63,12 +63,15 @@ jobs:
           cd infrastructure
           terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 
+      - name: Capture Terraform Output
+        run: |
+          terraform output -raw public_ip > public_ip.txt
+          export PUBLIC_IP=$(cat public_ip.txt)
+
       - name: run ansible playbook with output variable
-        env:
-          PUBLIC_IP: ${{steps.get_public_ip.outputs.PUBLIC_IP}}
         run: |
           cd infrastructure
-          ansible-playbook -i $(terraform output -raw public_ip), --private-key scheduler.pem redeploy.yaml 
+          ansible-playbook -i "${PUBLIC_IP}," --private-key scheduler.pem redeploy.yaml 
 
 #      - name: Run playbook
 #        working-directory: infrastructure
