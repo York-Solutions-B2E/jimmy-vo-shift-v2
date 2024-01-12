@@ -1,8 +1,7 @@
 name: Build React/Spring-Boot and Redeploy
 on:
   workflow_dispatch:
-  pull_request:
-    types: [merged]
+  push:
     branches: [main]
 
 jobs:
