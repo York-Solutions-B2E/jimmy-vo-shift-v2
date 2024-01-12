@@ -80,29 +80,34 @@ jobs:
 #          PUBLIC_IP: ${{steps.get_public_ip.outputs.PUBLIC_IP}}
 #        run: |
 #          cd infrastructure
-#          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml -VVVV
+#          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml -VVVV#
+      - name: Gather_public_ip
+        id: get_public_ip
+        run: |
+          cd infrastructure
+          terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 
-#      - name: Gather_public_ip
-#        id: get_public_ip
-#        run: |
-#          cd infrastructure
-#          terraform init -backend-config="access_key=${{ secrets.AWS_ACCESS_KEY_ID }}" -backend-config="secret_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-#          echo "{"all":{"hosts":{$(terraform output public_ip):null}}}" > hosts
-#          chmod 600 hosts
+      - name: run ansible playbook with output variable
+        env:
+          PUBLIC_IP: ${{steps.get_public_ip.outputs.PUBLIC_IP}}
+        run: |
+          cd infrastructure
+          ansible-playbook -i $(terraform output -raw public_ip), --private-key scheduler.pem redeploy.yaml 
 
-      - name: Run playbook
-        working-directory: infrastructure
-        uses: dawidd6/action-ansible-playbook@v2
-        with:
-          playbook: /infrastructure/redeploy.yaml
-          key: ${{secrets.SSH_PRIVATE_KEY}}
-          vault_password: ${{secrets.ANSIBLE_VAULT_PW}}
-          options: |
-            --verbose
-            --ssh-extra-args "-o StrictHostKeyChecking=no"
-            --inventory infrastructure/hosts
-          inventory: |
-            [all]
-            novolty.com
+
+#      - name: Run playbook
+#        working-directory: infrastructure
+#        uses: dawidd6/action-ansible-playbook@v2
+#        with:
+#          playbook: /infrastructure/redeploy.yaml
+#          key: ${{secrets.SSH_PRIVATE_KEY}}
+#          vault_password: ${{secrets.ANSIBLE_VAULT_PW}}
+#          options: |
+#            --verbose
+#            --ssh-extra-args "-o StrictHostKeyChecking=no"
+#            --inventory infrastructure/hosts
+#          inventory: |
+#            [all]
+#            novolty.com
 
 #            domain connected to public ip via dns
