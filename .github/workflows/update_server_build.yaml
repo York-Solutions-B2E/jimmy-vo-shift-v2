@@ -91,10 +91,10 @@ jobs:
 #          chmod 600 hosts
 
       - name: Run playbook
+        working-directory: infrastructure
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          playbook: infrastructure/redeploy.yaml
-          directory: infrastructure/
+          playbook: /infrastructure/redeploy.yaml
           key: ${{secrets.SSH_PRIVATE_KEY}}
           vault_password: ${{secrets.ANSIBLE_VAULT_PW}}
           options: |
