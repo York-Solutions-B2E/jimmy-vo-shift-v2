@@ -1,16 +1,7 @@
 ---
 - name: Configure Nginx
   block:
-    - name: Gather facts about target hosts
-      setup:
-
-    - name: Store the public IP of the first host
-      set_fact:
-        server_public_ip: ansible_default_ipv4.address
-
     - name: Create Nginx configuration file
-      vars:
-        server_name: "{{ server_public_ip }}"
       template:
         src: myNginx.conf.j2
         dest: /etc/nginx/sites-available/myNginx.conf
@@ -26,23 +17,15 @@
         path: /etc/nginx/sites-enabled/default
         state: absent
 
-#    - name: transfer Nginx configuration file
-#      copy:
-#        src: myNginx.conf
-#        dest: /etc/nginx/sites-available/myNginx.conf
-
     - name: Enable website configuration
       file:
         src: /etc/nginx/sites-available/myNginx.conf
         dest: /etc/nginx/sites-enabled/myNginx.conf
         state: link
 
-    - name: restart nginx
-      command: sudo systemctl restart nginx
-
     - name: Make sure Nginx is running
       systemd:
-        state: started
+        state: restarted
         name: nginx
 
 

@@ -69,4 +69,4 @@ jobs:
           terraform output -raw public_ip > public_ip.txt
           cat public_ip.txt
           export PUBLIC_IP=$(cat public_ip.txt)
-          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml
+          ansible-playbook -i $PUBLIC_IP, --private-key scheduler.pem redeploy.yaml --extra-vars INSTANCE_IP=$(terraform output -raw public_ip)
