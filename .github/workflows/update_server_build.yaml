@@ -46,11 +46,11 @@ jobs:
 #        with:
 #          terraform_version: 1.6.6
 
-#      - name: Create scheduler.pem file
-#        run: |
-#          cd infrastructure
-#          echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 --decode > scheduler.pem
-#          chmod 400 scheduler.pem
+      - name: Create scheduler.pem file
+        run: |
+          cd infrastructure
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 --decode > scheduler.pem
+          chmod 400 scheduler.pem
 
 #      - name: Gather_public_ip
 #        id: get_public_ip
