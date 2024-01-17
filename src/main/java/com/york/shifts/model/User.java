@@ -55,6 +55,7 @@ public class User {
         // Apply secure password hashing here
         this.password = password; // Replace with hashed password
     }
+    public String getPassword() {return password;}
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -75,5 +76,6 @@ public class User {
         this.lastName = lastName;
         this.role = role;
     }
+
 }
 

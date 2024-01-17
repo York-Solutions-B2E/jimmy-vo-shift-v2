@@ -10,14 +10,44 @@ public class Shift {
     @Column(unique = true, nullable = false, updatable = false)
     private Long id;
 
-    public Long getUserId() {
-        return userId;
+    @Column(name = "assigned_to_id")
+    private Long assignedToId;
+    @Column(name = "offered_to_id")
+    private Long offeredToId;
+
+    @Column(name = "start_date_time", nullable = false)
+    private String start;
+
+    @Column(name = "end_date_time", nullable = false)
+    private String end;
+
+    @Column(name = "role", nullable = false)
+    private Long role;
+
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive;
+
+    @Column(name = "is_off_day", nullable = false)
+    private Boolean isOffDay;
+
+    @Column(name = "is_published", nullable = false)
+    private Boolean isPublished;
+
+    public Long getAssignedToId() {
+        return assignedToId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setAssignedToId(Long assignedToId) {
+        this.assignedToId = assignedToId;
     }
 
+    public Long getOfferedToId() {
+        return offeredToId;
+    }
+
+    public void setOfferedToId(Long offeredToId) {
+        this.offeredToId = offeredToId;
+    }
     public String getStart() {
         return start;
     }
@@ -41,6 +71,9 @@ public class Shift {
     public void setRole(Long role) {
         this.role = role;
     }
+    public Long getId() {
+        return id;
+    }
 
     public Boolean getActive() {
         return isActive;
@@ -48,6 +81,14 @@ public class Shift {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Boolean getPublished() {
+        return isPublished;
+    }
+
+    public void setPublished(Boolean published){
+        isPublished = published;
     }
 
     public Boolean getOffDay() {
@@ -58,27 +99,10 @@ public class Shift {
         isOffDay = offDay;
     }
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
 
-    @Column(name = "start_date_time", nullable = false)
-    private String start;
-
-    @Column(name = "end_date_time", nullable = false)
-    private String end;
-
-    @Column(name = "role", nullable = false)
-    private Long role;
-
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
-
-    @Column(name = "is_off_day", nullable = false)
-    private Boolean isOffDay;
-
-
-    public Shift(Long userId, String start, String end, Long role, Boolean isActive, Boolean isOffDay) {
-        this.userId = userId;
+    public Shift(Long assignedToId, long offeredToId, String start, String end, Long role, Boolean isActive, Boolean isOffDay) {
+        this.assignedToId = assignedToId;
+        this.offeredToId = offeredToId;
         this.start = start;
         this.end = end;
         this.role = role;
