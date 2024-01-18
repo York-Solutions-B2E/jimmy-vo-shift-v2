@@ -1,34 +1,64 @@
-import React, { useRef } from "react";
+import React, { useState } from 'react';
+import { useAppDispatch } from '../store/store';
+import { login } from '../store/features/userSlice';
+import {useErrorMessage} from "../hooks/useError";
 
-import { useAppDispatch } from "../store/store";
-import {login} from "../store/features/userSlice";
+interface LoginFormProps {}
 
-const Login = () => {
-    const email = useRef<string>("");
-    const password = useRef<string>("");
+const Login: React.FC<LoginFormProps> = () => {
+    const [email, setEmail] = useState<string>('');
+    const errorMessage = useErrorMessage('user') ;
+
+    const [password, setPassword] = useState<string>('');
     const dispatch = useAppDispatch();
 
-    return(
+    const handleLogin = async (e: any) => {
+        e.preventDefault()
+        dispatch(login({ email, password }))
+    };
+
+    return (
+        <>
         <div>
-            <label htmlFor="">Email:</label>
-            <input
-                className="border rounded-md p-2 mx-2"
-                onChange={(e) => (email.current = e.target.value)}
-            />
-            <label htmlFor="">Password:</label>
-            <input
-                className="border rounded-md p-2 mx-2"
-                onChange={(e) => (password.current = e.target.value)}
-            />
-            <button
-                onClick={() => dispatch(login({ email: email.current,password: password.current }))}
-                className="bg-violet-500  text-white rounded-md px-4 py-2 cursor-pointer hover:bg-violet-600 active:bg-violet-700"
-            >
-                Login
-            </button>
         </div>
 
+        <form onSubmit={handleLogin}
+            className="container mt-2 mb-2 d-flex justify-content-center">
+            <div className="card p-4">
+                {errorMessage && (
+                    <div className="alert alert-danger text-center" role="alert">
+                        {errorMessage}
+                    </div>
+                )}
+                <div className="form-group mb-3">
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="form-control"
+                    />
+                </div>
+                <div className="form-group mb-3">
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="form-control"
+                    />
+                </div>
+                <button type="submit" className="btn btn-primary">
+                    Login
+                </button>
+            </div>
+        </form>
+        </>
     );
-}
+};
 
 export default Login;
