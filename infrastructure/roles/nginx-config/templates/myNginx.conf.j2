@@ -19,11 +19,11 @@ server {
         alias /var/www/novolty.com/html/static/media/;
     }
 
-    location /api/ {  # Or any other appropriate path prefix
+    location /api/ {
         proxy_pass http://localhost:8080;  # Forward to Spring Boot backend
 
         # CORS configuration
-        add_header 'Access-Control-Allow-Origin' '{{ INSTANCE_IP }}', 'novolty.com'; # Replace '*' with your specific allowed origins
+        add_header 'Access-Control-Allow-Origin' '{{ INSTANCE_IP }}'; # Replace '*' with your specific allowed origins
         add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
         add_header 'Access-Control-Allow-Headers' 'Origin, X-Requested-With, Content-Type, Accept, Authorization';
         add_header  'Access-Control-Expose-Headers' 'Content-Length, Content-Type';
