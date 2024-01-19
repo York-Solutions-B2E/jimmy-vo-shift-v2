@@ -1,5 +1,6 @@
 package com.york.shifts.model;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "shifts")
@@ -16,10 +17,10 @@ public class Shift {
     private Long offeredToId;
 
     @Column(name = "start_date_time", nullable = false)
-    private String start;
+    private LocalDate start;
 
     @Column(name = "end_date_time", nullable = false)
-    private String end;
+    private LocalDate end;
 
     @Column(name = "role", nullable = false)
     private Long role;
@@ -48,19 +49,19 @@ public class Shift {
     public void setOfferedToId(Long offeredToId) {
         this.offeredToId = offeredToId;
     }
-    public String getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(LocalDate start) {
         this.start = start;
     }
 
-    public String getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
-    public void setEnd(String end) {
+    public void setEnd(LocalDate end) {
         this.end = end;
     }
 
@@ -100,7 +101,7 @@ public class Shift {
     }
 
 
-    public Shift(Long assignedToId, long offeredToId, String start, String end, Long role, Boolean isActive, Boolean isOffDay) {
+    public Shift(Long assignedToId, long offeredToId, LocalDate start, LocalDate end, Long role, Boolean isActive, Boolean isOffDay) {
         this.assignedToId = assignedToId;
         this.offeredToId = offeredToId;
         this.start = start;
