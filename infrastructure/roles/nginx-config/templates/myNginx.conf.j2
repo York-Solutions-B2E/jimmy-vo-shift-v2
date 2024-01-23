@@ -1,6 +1,6 @@
 server {
 	listen 80:80;
-	listen [80]:80;
+	listen [::]:80;
     server_name {{ INSTANCE_IP }} novolty.com;
 
     root /var/www/novolty.com/html;
