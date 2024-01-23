@@ -13,6 +13,6 @@
   roles:
     - transfer-react
     - transfer-jar
-    - nginx-config
     - start-jar
+    - nginx-config
 
