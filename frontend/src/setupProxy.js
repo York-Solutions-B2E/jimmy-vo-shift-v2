@@ -5,8 +5,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const options = {
     target: 'http://localhost:8080', // target host
     changeOrigin: true, // needed for virtual hosted sites
-    ws: true, // proxy websockets
-    pathRewrite: { [`^/api`]: ""}
+    ws: true, // proxy websockets}
 };
 
 module.exports = function(app) {
