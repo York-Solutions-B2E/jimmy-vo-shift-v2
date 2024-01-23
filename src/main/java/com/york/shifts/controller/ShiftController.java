@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 
 @RestController
-@RequestMapping("/shifts")
+@RequestMapping("api/shifts")
 public class ShiftController {
 
     private final ShiftRepository shiftRepository;
